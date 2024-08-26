@@ -1,7 +1,7 @@
 ---
 
 global:
-  timezone: "Europe/Zurich"
+  timezone: "Europe/London"
 
 ## @param nameOverride String to partially override common.names.name
 ##
