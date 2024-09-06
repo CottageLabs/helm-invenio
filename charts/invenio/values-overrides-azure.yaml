@@ -1,0 +1,73 @@
+
+persistence:
+  enabled: false
+  # access_mode: ReadWriteOnce
+
+haproxy:
+  enabled: false
+
+flower:
+  enabled: false
+
+redis:
+  replica:
+    replicaCount: 1
+
+invenio:
+    init: true  # initiates db, index, and admin roles
+    # demo_data: true  # for a demo set of records
+    # default_users: # for creating users on install
+    #    hrafn@cottagelabs.com: "ri0ts99"
+    secret_key: "my-very-safe-secret"
+    hostname: "invenio.azure.cottagelabs.com"
+    security_login_salt: "secret"
+    csrf_secret_salt: "secret"
+
+rabbitmq:
+    auth:
+      password: "secret_rabbit"
+
+postgresql:
+    auth:
+      user: "invenio"
+      password: "db_password"
+      database: "invenio"
+
+ingress:
+  enabled: true
+  class: "nginx"
+  tlsSecretNameOverride: "letsencrypt-staging"
+  annotations:
+    cert-manager.io/issuer: "letsencrypt-staging"
+    # cert-manager.io/issue-temporary-certificate: "true"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+
+
+web:
+  replicas: 1
+  image: "ghcr.io/inveniosoftware/demo-inveniordm/demo-inveniordm:12.0.0-rc2"
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 225
+    periodSeconds: 15
+    successThreshold: 1
+    timeoutSeconds: 1
+  startupProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 230
+    periodSeconds: 15
+    successThreshold: 1
+    timeoutSeconds: 5
+  resources:
+    requests:
+      cpu: 750m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+worker:
+  replicas: 1
+  image: "ghcr.io/inveniosoftware/demo-inveniordm/demo-inveniordm:12.0.0-rc2"
+  livenessProbe:
+    initialDelaySeconds: 220
