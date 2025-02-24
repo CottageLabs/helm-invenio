@@ -9,15 +9,17 @@ invenio:
     #csrf_secret_salt: "REPLACE-ME"
     create_fixtures: true
     extraConfig:
-      INVENIO_MAIL_SERVER: "smtp.office365.com"
-      INVENIO_MAIL_PORT: "587"
+      INVENIO_MAIL_SERVER: "sandbox.smtp.mailtrap.io"
+      INVENIO_MAIL_PORT: "2525"
+      INVENIO_MAIL_USERNAME: "REPLACE-ME"
+      INVENIO_MAIL_PASSWORD: "REPLACE-ME"
+      INVENIO_MAIL_USE_SSL: "False"
       INVENIO_MAIL_USE_TLS: "True"
       INVENIO_SETTINGS_MODULE: "mex_invenio.config"
-      INVENIO_DATACITE_ENABLED: "True"
     datacite:
-      enabled: true
+      enabled: false
 web:
-  image: ""
+  image: "cottagelabs.azurecr.io/mex-invenio:latest"
   readinessProbe:
     failureThreshold: 3
     initialDelaySeconds: 60
@@ -39,7 +41,7 @@ web:
       memory: 2Gi
 
 worker:
-  image: ""
+  image: "cottagelabs.azurecr.io/mex-invenio:latest"
   livenessProbe:
     initialDelaySeconds: 120
 
