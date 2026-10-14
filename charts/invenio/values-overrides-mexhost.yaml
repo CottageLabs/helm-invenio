@@ -5,6 +5,12 @@ global:
   security:
     allowInsecureImages: true
 
+image:
+  registry: ghcr.io/robert-koch-institut
+  repository: mex-invenio
+  tag: "62c27f1075b6551a2a8d0aaf0f7e8b254cb3ac3a"
+  pullPolicy: Always
+
 invenio:
   init: false  # initiates db, index, and admin roles. set false post-install.
   hostname: "mex-stage.rki.de"
@@ -26,8 +32,6 @@ invenio:
     enabled: false
 
 web:
-  image: "ghcr.io/robert-koch-institut/mex-invenio:62c27f1075b6551a2a8d0aaf0f7e8b254cb3ac3a"
-  imagePullPolicy: Always
   loadBalancerIP: "<placeholder>"
   annotations:
     loadbalancer.openstack.org/keep-floatingip: "true"
@@ -55,8 +59,6 @@ web:
 
 # We want a high number of worker replicas to handle MEX import
 worker:
-  image: "ghcr.io/robert-koch-institut/mex-invenio:62c27f1075b6551a2a8d0aaf0f7e8b254cb3ac3a"
-  imagePullPolicy: Always
   replicas: 2
   resources:
     requests:
@@ -65,6 +67,35 @@ worker:
     limits:
       cpu: 1000m
       memory: 2Gi
+
+# The chart no longer sets default resources for these. workerBeat and nginx keep
+# the previous chart defaults; workerScheduler is new and lightweight.
+workerBeat:
+  resources:
+    requests:
+      cpu: 500m
+      memory: 200Mi
+    limits:
+      cpu: "2"
+      memory: 500Mi
+
+workerScheduler:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 200Mi
+    limits:
+      cpu: 500m
+      memory: 500Mi
+
+nginx:
+  resources:
+    requests:
+      cpu: 250m
+      memory: 500Mi
+    limits:
+      cpu: 250m
+      memory: 500Mi
 
 importjob:
   enabled: true
@@ -90,7 +121,7 @@ postgresqlExternal:
   port: 5432
   username: "<placeholder>"
   password: "<placeholder>"
-  databaseName: "<placeholder>"
+  database: "<placeholder>"
 
 opensearch:
   enabled: true
