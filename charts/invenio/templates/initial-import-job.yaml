@@ -7,9 +7,12 @@ metadata:
     {{- include "invenio.labels" . | nindent 4 }}
 spec:
   ttlSecondsAfterFinished: 7200
+  # initial_import does no identifier lookups, so a retried run re-creates every
+  # record already imported. Never retry automatically; a failed run needs a human.
+  backoffLimit: 0
   template:
     spec:
-      restartPolicy: OnFailure
+      restartPolicy: Never
       containers:
       - name: initial-import
         image: {{ include "invenio.image" . }}
