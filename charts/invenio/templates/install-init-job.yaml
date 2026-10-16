@@ -20,6 +20,7 @@ metadata:
 {{- end -}}
 {{- $cmd = cat $cmd "&& invenio rdm-records custom-fields init" -}}
 {{- $cmd = cat $cmd "&& invenio rdm-records fixtures" -}}
+{{- $cmd = cat $cmd "&& invenio rdm pages create" -}}
 {{- $cmd = cat $cmd "&& invenio mex setup-db" -}}
 
 spec:
