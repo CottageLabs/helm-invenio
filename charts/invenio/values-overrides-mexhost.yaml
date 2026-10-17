@@ -8,7 +8,7 @@ global:
 image:
   registry: ghcr.io/robert-koch-institut
   repository: mex-invenio
-  tag: "62c27f1075b6551a2a8d0aaf0f7e8b254cb3ac3a"
+  tag: "4280a5708003dedc8027888017e2d93363ee5b7e"
   pullPolicy: Always
 
 invenio:
@@ -153,6 +153,7 @@ opensearch:
     opensearch.yml: |
       cluster.name: mex-invenio-opensearch
       network.host: 0.0.0.0
+      # Neither Invenio nor MEx uses scripts; don't let anything that can send a query run them
       script.allowed_types: none
       plugins:
         security:

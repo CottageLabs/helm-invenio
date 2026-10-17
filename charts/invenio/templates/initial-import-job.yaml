@@ -35,6 +35,7 @@ spec:
           value: {{ required "Missing .Values.global.timezone" .Values.global.timezone }}
         {{- include "invenio.config.queue" . | nindent 8 }}
         {{- include "invenio.config.database" . | nindent 8 }}
+        {{- include "invenio.opensearch.env" . | nindent 8 }}
         - name: INVENIO_S3_DOWNLOAD_FOLDER
           value: {{ .Values.importjob.persistence.mountPath | quote }}
         {{- include "invenio.config.sentry" . | nindent 8 }}
