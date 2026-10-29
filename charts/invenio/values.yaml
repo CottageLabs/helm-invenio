@@ -773,7 +773,7 @@ devSnapshot:
   activeDeadlineSeconds: 7200
   image:
     registry: ghcr.io/robert-koch-institut
-    repository: mex-dev-snapshot
+    repository: mex-invenio-dev-snapshot
     ## @param devSnapshot.image.tag Required; the image's PG_MAJOR must match the database
     tag: ""
     pullPolicy: IfNotPresent
