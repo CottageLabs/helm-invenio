@@ -92,6 +92,10 @@ spec:
         {{- with .Values.invenio.extraEnvVars }}
         {{-  toYaml . | nindent 8 }}
         {{- end }}
+        {{- if and .Values.importjob.enabled .Values.importjob.persistence.enabled }}
+        - name: INVENIO_DOWNLOADABLE_FILES_DIR
+          value: /opt/invenio/var/downloadable-files
+        {{- end }}
         {{- with .Values.web.extraEnvVars }}
         {{-  toYaml . | nindent 8 }}
         {{- end }}
@@ -132,6 +136,12 @@ spec:
             {{- if .Values.persistence.useSubPath }}
             subPath: profiler
             {{- end }}
+          {{- end }}
+          {{- if and .Values.importjob.enabled .Values.importjob.persistence.enabled }}
+          - name: import-data
+            mountPath: /opt/invenio/var/downloadable-files
+            subPath: downloadable_files
+            readOnly: true
           {{- end }}
           {{- if .Values.kerberos.enabled }}
           - name: kerberos-credentials-cache
@@ -179,6 +189,10 @@ spec:
         - name: import-data
           mountPath: /opt/import-status
           subPath: status
+          readOnly: true
+        - name: import-data
+          mountPath: /opt/downloadable-files
+          subPath: downloadable_files
           readOnly: true
         {{- end }}
         readinessProbe:
