@@ -780,9 +780,9 @@ devSnapshot:
     pullSecrets: []
   ## @param devSnapshot.existingSecret Required; Secret holding the keys in secretKeys
   existingSecret: ""
+  ## The staging database connection is taken from postgresql/postgresqlExternal,
+  ## as for the app; the job's session is read-only.
   secretKeys:
-    ## postgresql://user:pass@host:5432/db; a read-only user is enough
-    sourceDatabaseUrl: SOURCE_DATABASE_URL
     ## At least 32 characters; keep it stable so pseudonyms stay stable
     salt: SNAPSHOT_SALT
     ## Write access (PutObject) is enough
@@ -794,8 +794,6 @@ devSnapshot:
     bucket: ""
     region: us-east-1
     prefix: snapshots
-  ## @param devSnapshot.allowEmails Functional addresses allowed to remain in the data
-  allowEmails: []
   ## Holds the scratch copy of the database and the dump: about twice the database size
   work:
     size: 20Gi
